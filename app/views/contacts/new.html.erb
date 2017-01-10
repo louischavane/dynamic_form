@@ -1,0 +1,39 @@
+<dic class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+
+      <h1>Dynamic Form</h1>
+
+
+      <%= simple_form_for @contact do |f|%>
+      <div id="gender_radio">
+        <%= f.collection_radio_buttons :gender, [[0, 'M'] ,[1, 'Mme'], [2, 'M et Mme']], :first, :last%>
+      </div>
+        <%= f.input :first_name %>
+        <%= f.input :last_name %>
+        <div class="<%= 'hidden' unless @contact.couple? %>" id="alt_person">
+          <%= f.input :first_name_alt %>
+          <%= f.input :last_name_alt %>
+        </div>
+        <%= f.button :submit %>
+
+      <% end %>
+
+
+
+    </div>
+  </div>
+</div>
+<% content_for :after_js do %>
+<script>
+
+  $("#gender_radio input").on("click",
+    function(){if($(this).val()==2){
+        $("#alt_person").removeClass("hidden");
+        }else{
+          $("#alt_person").addClass("hidden");
+        }
+  })
+</script>
+<% end %>
+
